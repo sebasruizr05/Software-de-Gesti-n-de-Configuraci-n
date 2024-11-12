@@ -18,3 +18,32 @@ def create_table():
     ''')
     conn.commit()
     conn.close()
+
+def add_config(name, description, version):
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO config_products (name, description, version)
+        VALUES (?, ?, ?)
+    ''', (name, description, version))
+    conn.commit()
+    conn.close()
+
+def edit_config(config_id, name, description, version):
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        UPDATE config_products
+        SET name = ?, description = ?, version = ?
+        WHERE id = ?
+    ''', (name, description, version, config_id))
+    conn.commit()
+    conn.close()
+
+
+def delete_config(config_id):
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM config_products WHERE id = ?', (config_id,))
+    conn.commit()
+    conn.close()
